@@ -1,0 +1,17 @@
+.weatherHeader {
+    color:white;
+    background-color:rgb(126, 126, 233);
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+.mainContainer {
+    padding-top:10px;
+}
+
+.searchButton {
+    color:white;
+    background-color: rgb(126, 126, 233);
+    margin-top:5px;
+    margin-bottom:5px;
+}
