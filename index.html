@@ -22,15 +22,14 @@
             <div class="row">   <!--row holding both the search/history and results, so they will be side by side-->
                 <aside class="col-lg-3 pb-3"> <!--This will be on the left containing my search bar and history-->
                     <h3>Search for a City:</h3>
-                    <form id="search-form" class="form">    <!--search area and directly below is the text entry for the search keyword-->
-                            <div class="input-group">   
+                    <form id="searchForm" class="form">    <!--search area and directly below is the text entry for the search keyword-->
+                            <div class=>   
                                 <input                  
-                                    class="form-input weather-search"
                                     type="text"
-                                    id="search-input"
+                                    id="searchInput"
                                     placeholder="Seattle"                   
                                 />
-                                <div class="input-group-append">    <!--search button to start the search-->
+                                <div>    <!--search button to start the search-->
                                     <button
                                         type="submit"
                                         class="btn search-button searchButton"
@@ -41,7 +40,7 @@
                                 </div>
                             </div>
                     </form>
-                    <div class="list-group" id="history"></div> <!--this is where the previous searches should show up-->
+                    <div class="list-group historyList" id="historyBox"></div> <!--this is where the previous searches should show up-->
                 </aside>
 
                 <div class="col-lg-9 pb-3"> <!--area to hold the current day's weather details-->
@@ -51,14 +50,14 @@
                     ></section>
                     <!--just below is where the 5 day forecast will show-->
                     <section               
-                        id="forecast"
+                        id="forecastSection"
                         class="row mt-3"
                     ></section>
                   </div>
             </div> 
         </div>
 
-        <!--day.js for formatting day-->
+        <!--day.js for formatting day for API call-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.5/dayjs.min.js" integrity="sha512-Ot7ArUEhJDU0cwoBNNnWe487kjL5wAOsIYig8llY/l0P2TUFwgsAHVmrZMHsT8NGo+HwkjTJsNErS6QqIkBxDw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.5/plugin/utc.min.js" integrity="sha512-z84O912dDT9nKqvpBnl1tri5IN0j/OEgMzLN1GlkpKLMscs5ZHVu+G2CYtA6dkS0YnOGi3cODt3BOPnYc8Agjg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.5/plugin/timezone.min.js" integrity="sha512-fG1tT/Wn/ZOyH6/Djm8HQBuqvztPQdK/vBgNFLx6DQVt3yYYDPN3bXnGZT4z4kAnURzGQwAnM3CspmhLJAD/5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

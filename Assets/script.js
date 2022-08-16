@@ -1,63 +1,25 @@
+//global variables and api key
 var searchHistory = [];
 var weatherApiRootUrl = 'https://api.openweathermap.org';
 var weatherApiKey = 'dc9fed23d14a1f7f13a170ed656895f3';
 
-
-var searchForm = document.querySelector('#search-form');
-var searchInput = document.querySelector('#search-input');
+//assigning variables to the HTML fields
+var searchForm = document.querySelector('#searchForm');
+var searchInput = document.querySelector('#searchInput');
 var todayContainer = document.querySelector('#today');
-var forecastContainer = document.querySelector('#forecast');
-var searchHistoryContainer = document.querySelector('#history');
+var forecastContainer = document.querySelector('#forecastSection');
+var searchHistoryContainer = document.querySelector('#historyBox');
 
 // Add timezone plugins to day.js
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
-
-// Function to display the search history list.
-function renderSearchHistory() {
-  searchHistoryContainer.innerHTML = '';
-
-  // Start at end of history array and count down to show the most recent at the top.
-  for (var i = searchHistory.length - 1; i >= 0; i--) {
-    var btn = document.createElement('button');
-    btn.setAttribute('type', 'button');
-    btn.setAttribute('aria-controls', 'today forecast');
-    btn.classList.add('history-btn', 'btn-history');
-
-    // `data-search` allows access to city name when click handler is invoked
-    btn.setAttribute('data-search', searchHistory[i]);
-    btn.textContent = searchHistory[i];
-    searchHistoryContainer.append(btn);
-  }
-}
-
-// Function to update history in local storage then updates displayed history.
-function appendToHistory(search) {
-  // If there is no search term return the function
-  if (searchHistory.indexOf(search) !== -1) {
-    return;
-  }
-  searchHistory.push(search);
-
-  localStorage.setItem('search-history', JSON.stringify(searchHistory));
-  renderSearchHistory();
-}
-
-// Function to get search history from local storage
-function initSearchHistory() {
-  var storedHistory = localStorage.getItem('search-history');
-  if (storedHistory) {
-    searchHistory = JSON.parse(storedHistory);
-  }
-  renderSearchHistory();
-}
 
 // Function to display the current weather data fetched from OpenWeather api.
 function renderCurrentWeather(city, weather, timezone) {
   var date = dayjs().tz(timezone).format('M/D/YYYY');
 
   // Store response data from our fetch request in variables
-  var tempF = weather.temp;
+  var temperature = weather.temp;
   var windMph = weather.wind_speed;
   var humidity = weather.humidity;
   var uvi = weather.uvi;
@@ -66,7 +28,7 @@ function renderCurrentWeather(city, weather, timezone) {
 
   var card = document.createElement('div');
   var cardBody = document.createElement('div');
-  var heading = document.createElement('h2');
+  var heading = document.createElement('h3');
   var weatherIcon = document.createElement('img');
   var tempEl = document.createElement('p');
   var windEl = document.createElement('p');
@@ -88,7 +50,7 @@ function renderCurrentWeather(city, weather, timezone) {
   weatherIcon.setAttribute('alt', iconDescription);
   weatherIcon.setAttribute('class', 'weather-img');
   heading.append(weatherIcon);
-  tempEl.textContent = `Temp: ${tempF}°F`;
+  tempEl.textContent = `Temp: ${temperature}°F`;
   windEl.textContent = `Wind: ${windMph} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
   cardBody.append(heading, tempEl, windEl, humidityEl);
@@ -119,7 +81,7 @@ function renderForecastCard(forecast, timezone) {
   var unixTs = forecast.dt;
   var iconUrl = `https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`;
   var iconDescription = forecast.weather[0].description;
-  var tempF = forecast.temp.day;
+  var temperature = forecast.temp.day;
   var { humidity } = forecast;
   var windMph = forecast.wind_speed;
 
@@ -150,7 +112,8 @@ function renderForecastCard(forecast, timezone) {
   cardTitle.textContent = dayjs.unix(unixTs).tz(timezone).format('M/D/YYYY');
   weatherIcon.setAttribute('src', iconUrl);
   weatherIcon.setAttribute('alt', iconDescription);
-  tempEl.textContent = `Temp: ${tempF} °F`;
+  tempEl.textContent = `Temperature: ${temperature} °F`;
+  //console.log(temperature)
   windEl.textContent = `Wind: ${windMph} MPH`;
   humidityEl.textContent = `Humidity: ${humidity} %`;
 
@@ -254,3 +217,45 @@ function handleSearchHistoryClick(e) {
 initSearchHistory();
 searchForm.addEventListener('submit', handleSearchFormSubmit);
 searchHistoryContainer.addEventListener('click', handleSearchHistoryClick);
+
+
+
+
+// Function to display the search history list.
+function renderSearchHistory() {
+  searchHistoryContainer.innerHTML = '';
+
+  // Start at end of history array and count down to show the most recent at the top.
+  for (var i = searchHistory.length - 1; i >= 0; i--) {
+    var btn = document.createElement('button');
+    btn.setAttribute('type', 'button');
+    btn.setAttribute('aria-controls', 'today forecast');
+    btn.classList.add('history-btn', 'btn-history');
+
+    // `data-search` allows access to city name when click handler is invoked
+    btn.setAttribute('data-search', searchHistory[i]);
+    btn.textContent = searchHistory[i];
+    searchHistoryContainer.append(btn);
+  }
+}
+
+// Function to update history in local storage then updates displayed history.
+function appendToHistory(search) {
+  // If there is no search term return the function
+  if (searchHistory.indexOf(search) !== -1) {
+    return;
+  }
+  searchHistory.push(search);
+
+  localStorage.setItem('search-history', JSON.stringify(searchHistory));
+  renderSearchHistory();
+}
+
+// Function to get search history from local storage
+function initSearchHistory() {
+  var storedHistory = localStorage.getItem('search-history');
+  if (storedHistory) {
+    searchHistory = JSON.parse(storedHistory);
+  }
+  renderSearchHistory();
+}
